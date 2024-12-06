@@ -58,7 +58,7 @@ int main() {
     vector<Point> closestPoints = bruteForce(points);
     clock_t end = clock();
 
-    cout << "Closest points are: (" << closestPoints[0].x << ", " 
+    cout << "Closest pair: (" << closestPoints[0].x << ", " 
          << closestPoints[0].y << ") and (" 
          << closestPoints[1].x << ", " << closestPoints[1].y << ")" << endl;
     cout << "Time taken: " << double(end - start) / CLOCKS_PER_SEC << " seconds" << endl;

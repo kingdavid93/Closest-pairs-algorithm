@@ -123,9 +123,8 @@ int main() {
     vector<Point> closest = findClosestPair(points);
     clock_t end = clock();
         
-    cout << "Closest points: (" << closest[0].x << "," << closest[0].y << ") and ("
+    cout << "Closest pair: (" << closest[0].x << "," << closest[0].y << ") and ("
              << closest[1].x << "," << closest[1].y << ")\n";
-    cout << "Distance: " << calculateDistance(closest[0], closest[1]) << '\n';
     cout << "Time: " << double(end - start)/CLOCKS_PER_SEC << " seconds\n";
 
 }

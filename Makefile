@@ -12,6 +12,6 @@ divideconquer: divideconquer.cpp
 	$(CXX) $(CXXFLAGS) divideconquer.cpp -o divideconquer
 
 clean:
-	rm -f $(TARGETS)
+	rm -f *.exe 
 	
 .PHONY: all clean
