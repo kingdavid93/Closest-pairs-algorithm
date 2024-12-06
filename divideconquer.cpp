@@ -7,14 +7,17 @@
 
 using namespace std;
 
+// Create a point with x and y coordinates
 struct Point {
     int x, y;
 };
 
+// Calculate the distance between two points
 double calculateDistance(const Point& p1, const Point& p2) {
     return sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y));
 }
 
+// Merge based on the x or y coordinates
 void merge(vector<Point>& points, int l, int m, int r, bool x) {
     vector<Point> temp(r - l);
     int i = l, j = m, k = 0;
@@ -46,7 +49,7 @@ void mergeSort(vector<Point>& points, int l, int r, bool x) {
 
 vector<Point> quickClosestPair(vector<Point>& points, int l, int r) {
     if (r - l <= 3) {
-        double minDistance = DBL_MAX;
+        double minDistance = DBL_MAX; // Initialize the minimum distance to the maximum possible value
         vector<Point> closest(2);
         for (int i = l; i < r - 1; i++) {
             for (int j = i + 1; j < r; j++) {
@@ -61,17 +64,18 @@ vector<Point> quickClosestPair(vector<Point>& points, int l, int r) {
         return closest;
     }
 
-    int m = (l + r) / 2;
-    int c = points[m].x;
+    int m = (l + r) / 2; //Divide into two halves
+    int c = points[m].x; 
 
     auto lPair = quickClosestPair(points, l, m);
     auto rPair = quickClosestPair(points, m, r);
 
-    double d1 = calculateDistance(lPair[0], lPair[1]);
-    double d2 = calculateDistance(rPair[0], rPair[1]);
-    double d = min(d1, d2);
-    vector<Point> closest = (d1 < d2) ? lPair : rPair;
+    double d1 = calculateDistance(lPair[0], lPair[1]); 
+    double d2 = calculateDistance(rPair[0], rPair[1]); 
+    double d = min(d1, d2); 
+    vector<Point> closest = (d1 < d2) ? lPair : rPair; 
 
+    // Create two strips based on the x coordinate
     vector<Point> C1, C2;
     for (int i = l; i < r; i++) {
         if (abs(points[i].x - c) < d) {
@@ -86,6 +90,7 @@ vector<Point> quickClosestPair(vector<Point>& points, int l, int r) {
     mergeSort(C1, 0, C1.size(), false);
     mergeSort(C2, 0, C2.size(), false);
 
+    // Check pairs within C1
     for (size_t i = 0; i < C1.size(); i++) {
         for (size_t j = i + 1; j < C1.size() && (C1[j].y - C1[i].y) < d; j++) {
             double dist = calculateDistance(C1[i], C1[j]);
@@ -97,6 +102,7 @@ vector<Point> quickClosestPair(vector<Point>& points, int l, int r) {
         }
     }
 
+    // Check pairs within C2
     for (size_t i = 0; i < C2.size(); i++) {
         for (size_t j = i + 1; j < C2.size() && (C2[j].y - C2[i].y) < d; j++) {
             double dist = calculateDistance(C2[i], C2[j]);
@@ -108,6 +114,7 @@ vector<Point> quickClosestPair(vector<Point>& points, int l, int r) {
         }
     }
 
+    // Check pairs between C1 and C2
     for (const Point& p : C1) {
         for (const Point& q : C2) {
             if (abs(p.y - q.y) >= d) continue;

@@ -8,16 +8,18 @@
 
 using namespace std;
 
+// Create a point with x and y coordinates
 struct Point {
     int x, y;
 };
 
+// Calculate the distance between two points
 double calculateDistance(const Point& p1, const Point& p2) {
     return sqrt( (p1.x - p2.x)*(p1.x - p2.x) + (p1.y - p2.y)*(p1.y - p2.y));
 }
 
 vector<Point> bruteForce(const vector<Point>& points) {
-    double minDistance = DBL_MAX;
+    double minDistance = DBL_MAX; // Initialize the minimum distance to the maximum possible value
     int psize = points.size();
     Point p1, p2;
     
@@ -32,7 +34,7 @@ vector<Point> bruteForce(const vector<Point>& points) {
         }
     }
     
-    vector<Point> minPoints;
+    vector<Point> minPoints; // Store the closest pair of points
     minPoints.push_back(p1);
     minPoints.push_back(p2);
     return minPoints;
