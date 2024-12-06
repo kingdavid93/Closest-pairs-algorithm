@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include <cmath>
+#include <cfloat>
 #include <ctime>
 
 using namespace std;
@@ -45,7 +46,7 @@ void mergeSort(vector<Point>& points, int l, int r, bool x) {
 
 vector<Point> quickClosestPair(vector<Point>& points, int l, int r) {
     if (r - l <= 3) {
-        double minDistance = INFINITY;
+        double minDistance = DBL_MAX;
         vector<Point> closest(2);
         for (int i = l; i < r - 1; i++) {
             for (int j = i + 1; j < r; j++) {
@@ -74,34 +75,54 @@ vector<Point> quickClosestPair(vector<Point>& points, int l, int r) {
     vector<Point> C1, C2;
     for (int i = l; i < r; i++) {
         if (abs(points[i].x - c) < d) {
-            if (points[i].x <= c) C1.push_back(points[i]);
-            else C2.push_back(points[i]);
+            if (points[i].x <= c) {
+                C1.push_back(points[i]);
+            } else {
+                C2.push_back(points[i]);
+            }
         }
     }
 
     mergeSort(C1, 0, C1.size(), false);
     mergeSort(C2, 0, C2.size(), false);
 
+    for (size_t i = 0; i < C1.size(); i++) {
+        for (size_t j = i + 1; j < C1.size() && (C1[j].y - C1[i].y) < d; j++) {
+            double dist = calculateDistance(C1[i], C1[j]);
+            if (dist < d) {
+                d = dist;
+                closest[0] = C1[i];
+                closest[1] = C1[j];
+            }
+        }
+    }
+
+    for (size_t i = 0; i < C2.size(); i++) {
+        for (size_t j = i + 1; j < C2.size() && (C2[j].y - C2[i].y) < d; j++) {
+            double dist = calculateDistance(C2[i], C2[j]);
+            if (dist < d) {
+                d = dist;
+                closest[0] = C2[i];
+                closest[1] = C2[j];
+            }
+        }
+    }
+
     for (const Point& p : C1) {
-        int count = 0;
         for (const Point& q : C2) {
             if (abs(p.y - q.y) >= d) continue;
-            if (count >= 6) break;
-            
             double dist = calculateDistance(p, q);
             if (dist < d) {
                 d = dist;
                 closest[0] = p;
                 closest[1] = q;
             }
-            count++;
         }
     }
-
     return closest;
 }
 
-vector<Point> findClosestPair(vector<Point>& points) {    
+vector<Point> findClosestPair(vector<Point>& points) {
     mergeSort(points, 0, points.size(), true);
     return quickClosestPair(points, 0, points.size());
 }

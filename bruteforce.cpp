@@ -43,7 +43,6 @@ int main() {
     cout << "Enter filename: ";
     cin >> filename;
 
-
     ifstream file(filename);
 
     vector<Point> points;
@@ -53,13 +52,11 @@ int main() {
     }
     file.close();
 
-    
     clock_t start = clock();
     vector<Point> closestPoints = bruteForce(points);
     clock_t end = clock();
 
-    cout << "Closest pair: (" << closestPoints[0].x << ", " 
-         << closestPoints[0].y << ") and (" 
+    cout << "Closest pair: (" << closestPoints[0].x << ", " << closestPoints[0].y << ") and (" 
          << closestPoints[1].x << ", " << closestPoints[1].y << ")" << endl;
     cout << "Time taken: " << double(end - start) / CLOCKS_PER_SEC << " seconds" << endl;
 

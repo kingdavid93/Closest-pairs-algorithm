@@ -11,10 +11,11 @@ bruteforce: bruteforce.cpp
 divideconquer: divideconquer.cpp
 	$(CXX) $(CXXFLAGS) divideconquer.cpp -o divideconquer
 
-create: create.cpp
-	$(CXX) $(CXXFLAGS) create.cpp -o create
+create: create.cc
+	$(CXX) $(CXXFLAGS) create.cc -o create
 
 clean:
-	rm -f *.exe 
+	rm -f create divideconquer bruteforce 
+	rm -rf .vscode/
 	
 .PHONY: all clean
